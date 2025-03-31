@@ -1,0 +1,61 @@
+<h3>Calculate</h3>
+@page "/Calculate"
+@rendermode InteractiveServer
+<h3>Calculate</h3>
+<h1>@VVel</h1>
+<table>
+    
+    @foreach (var row in  Operation)
+    {
+        <tr>
+            @foreach (var button in row)
+            {
+                <td><button @onclick="() => Add(button.ToString())">@button</button></td>
+            }
+        </tr>
+    }
+    <tr>
+        <th><button @onclick="Calculte">=</button></th>
+        <th><button @onclick="Clear">C</button></th>
+        
+    </tr>
+    
+</table>
+@code {
+    private string VVel { get; set; } = string.Empty;
+
+    private string[] Operation = new string[] { "0","1", "2", "3", "4", "5", "6", "7", "8", "9", "/", "*", "+","." };
+    
+    
+    private void Add(string value) => VVel += value;
+
+    private void Calculte()
+    {
+        var expression = VVel;
+        if (expression.Contains("/0"))
+        {
+            VVel = "Error"; 
+        }
+        else
+        {
+            try
+            {
+                var result = Result(expression);
+                VVel = result.ToString();
+            }
+            catch
+            {
+                VVel = "Error"; 
+            }
+        }
+    }
+    private void Clear() => VVel = string.Empty;
+    
+    private double Result(string expression)
+    {
+        var dataTable = new System.Data.DataTable();
+        return Convert.ToDouble(dataTable.Compute(expression, string.Empty));
+    }
+
+
+}
