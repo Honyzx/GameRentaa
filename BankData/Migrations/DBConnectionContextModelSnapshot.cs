@@ -17,6 +17,21 @@ namespace DataBank.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
 
+            modelBuilder.Entity("Pattern.Category", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("Pattern.Fine", b =>
                 {
                     b.Property<int>("FineID")
@@ -61,9 +76,8 @@ namespace DataBank.Migrations
                     b.Property<int>("AvailableCopies")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("DailyRentalPrice")
                         .HasColumnType("TEXT");
@@ -89,6 +103,8 @@ namespace DataBank.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("GameID");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Games");
                 });
@@ -249,6 +265,17 @@ namespace DataBank.Migrations
                     b.Navigation("Rental");
                 });
 
+            modelBuilder.Entity("Pattern.Game", b =>
+                {
+                    b.HasOne("Pattern.Category", "Category")
+                        .WithMany("Games")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("Pattern.Payment", b =>
                 {
                     b.HasOne("Pattern.Rental", "Rental")
@@ -288,6 +315,11 @@ namespace DataBank.Migrations
                     b.Navigation("Game");
 
                     b.Navigation("Rental");
+                });
+
+            modelBuilder.Entity("Pattern.Category", b =>
+                {
+                    b.Navigation("Games");
                 });
 
             modelBuilder.Entity("Pattern.Game", b =>
