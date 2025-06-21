@@ -12,24 +12,16 @@ namespace DataBank.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Games",
+                name: "Categories",
                 columns: table => new
                 {
-                    GameID = table.Column<int>(type: "INTEGER", nullable: false)
+                    ID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    ID = table.Column<int>(type: "INTEGER", nullable: false),
-                    Title = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: false),
-                    Category = table.Column<string>(type: "TEXT", nullable: false),
-                    ReleaseYear = table.Column<int>(type: "INTEGER", nullable: false),
-                    DailyRentalPrice = table.Column<decimal>(type: "TEXT", nullable: false),
-                    DepositAmount = table.Column<decimal>(type: "TEXT", nullable: false),
-                    TotalCopies = table.Column<int>(type: "INTEGER", nullable: false),
-                    AvailableCopies = table.Column<int>(type: "INTEGER", nullable: false)
+                    Name = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Games", x => x.GameID);
+                    table.PrimaryKey("PK_Categories", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -47,6 +39,33 @@ namespace DataBank.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_User", x => x.UserID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Games",
+                columns: table => new
+                {
+                    GameID = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ID = table.Column<int>(type: "INTEGER", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false),
+                    ReleaseYear = table.Column<int>(type: "INTEGER", nullable: false),
+                    DailyRentalPrice = table.Column<decimal>(type: "TEXT", nullable: false),
+                    DepositAmount = table.Column<decimal>(type: "TEXT", nullable: false),
+                    TotalCopies = table.Column<int>(type: "INTEGER", nullable: false),
+                    AvailableCopies = table.Column<int>(type: "INTEGER", nullable: false),
+                    CategoryId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Games", x => x.GameID);
+                    table.ForeignKey(
+                        name: "FK_Games_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -164,6 +183,11 @@ namespace DataBank.Migrations
                 column: "RentalID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Games_CategoryId",
+                table: "Games",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Payments_RentalID",
                 table: "Payments",
                 column: "RentalID");
@@ -201,6 +225,9 @@ namespace DataBank.Migrations
 
             migrationBuilder.DropTable(
                 name: "Rentals");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "User");
