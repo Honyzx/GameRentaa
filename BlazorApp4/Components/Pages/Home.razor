@@ -3,6 +3,7 @@
 @using System.Timers
 @using Microsoft.AspNetCore.Mvc
 @using Pattern
+@inject NavigationManager NavigationManager
 
 
 
@@ -78,6 +79,8 @@
 
 
 @code{
+  
+  
 
   private List<string> Images = new List<string>
   {

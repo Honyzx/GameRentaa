@@ -21,13 +21,15 @@
     <div class="text"> Ваша фамилия </div>
     <input type="text" class="btn-acti" bind-value="@_users.LastName"/>
     <div class="text"> Электронная почта</div>
-    <input type="text" class="btn-acti" bind-value="@_users.Email" />
+    <input type="email" class="btn-acti" bind-value="@_users.Email" />
     <div class="text" > Номер телефона </div>
     <input type="text" class="btn-acti" bind-value="@_users.Phone"/>
+    <div class="text" > Планируемая дата возврата</div>
+    <input type="date" class="btn-acti" bind-value="@_rental.PlannedReturnDate"/>
     <div class="text"> Выберите игру </div>
     <select class="text" @bind="@_game.GameID">
     
-        <option selected ></option>
+        
         @foreach (var item in games)
         {
             <option value="@item.ID" selected="@((item.ID == _game.GameID).ToString().ToLower())">
@@ -36,7 +38,7 @@
         }
 
     </select>
-    <button type="submit">Арендовать</button>
+    <button type="submit" class="uppp">Арендовать</button>
 </EditForm>
 
 @foreach (var item in ef.Games
@@ -47,6 +49,7 @@
     
      
     private Users _users = new Users();
+    private Rental _rental = new Rental();
 
     private void Submit(EditContext arg)
     {

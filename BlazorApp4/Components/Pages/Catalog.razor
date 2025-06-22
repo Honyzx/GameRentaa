@@ -2,9 +2,9 @@
 @using Microsoft.AspNetCore.Mvc
 @using Pattern
 @using DataBank
-@using Microsoft.AspNetCore.Mvc.Rendering
+
 @using Microsoft.EntityFrameworkCore
-@inject DBConnectionContext db
+@inject DBConnectionContext  context
 
 @rendermode InteractiveServer
 @inject NavigationManager NavigationManager
@@ -71,7 +71,7 @@ else if (selectedCategoryId != null)
 
     protected override void OnInitialized()
     {
-        _categories = db.Categories.ToList();
+        _categories =  context.Categories.ToList();
     }
 
     private int? selectedCategoryId
@@ -88,7 +88,7 @@ else if (selectedCategoryId != null)
     {
         if (selectedCategoryId != null)
         {
-            _filteredGames = db.Games
+            _filteredGames =  context.Games
                 .Where(g => g.CategoryId == selectedCategoryId)
                 .ToList();
         }

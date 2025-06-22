@@ -29,13 +29,13 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 using (var serviceScope = app.Services.CreateScope())
 {
-    var db = serviceScope.ServiceProvider.GetRequiredService<DBConnectionContext>();
-    db.Database.Migrate();
-    if (!db.Games.Any())
+    var  context = serviceScope.ServiceProvider.GetRequiredService<DBConnectionContext>();
+    context.Database.Migrate();
+    if (! context.Games.Any())
     {
         var video = new Category {Name = "Видео игры"};
         var board = new Category {Name = "Настольные игры"}; 
-        db.Games.AddRange(
+        context.Games.AddRange(
             new Game { Title = "Horizon Zero Dawn Remastered PS5", Description = "499", DailyRentalPrice = 499 , Category = video, GameID = 1,  },
             new Game { Title  = "ELDEN RING NIGHTREIGN PS4 & PS5", Description = "https://igroarenda.ru/image/cache/catalog/hzz-500x500.jpg", DailyRentalPrice = 899 , Category = video, GameID = 2,},
             new Game { Title  = "Alien: Isolation", Description = "https://igroarenda.ru/image/cache/catalog/alien-500x500.jpg", DailyRentalPrice = 99 , Category = video , GameID = 3,},
@@ -44,7 +44,7 @@ using (var serviceScope = app.Services.CreateScope())
             new Game { Title  = "Детективные истории: Последний рейс Гаттардо", Description = "https://www.tdkarandash.ru/upload/resize_cache/iblock/17b/450_450_140cd750bba9870f18aada2478b24840a/p9y01c8zalmpjhthz1ntxk147flw0f7g.jpg", DailyRentalPrice = 399 , Category = board, GameID = 6, }
             
         );
-        db.SaveChanges();
+        context.SaveChanges();
     }
 }
 
