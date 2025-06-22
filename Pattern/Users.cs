@@ -4,6 +4,7 @@ namespace Pattern;
 
 public class Users
 {
+
     public int ID { get; set; }
     [Key] public int UserID { get; set; }
     [Required] public string FirstName { get; set; } = "";

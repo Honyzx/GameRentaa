@@ -42,6 +42,7 @@ using (var serviceScope = app.Services.CreateScope())
             new Game { Title  = "Forza Horizon 5 Standard Edition PS5", Description = "https://igroarenda.ru/image/cache/catalog/reviews/forzz-500x500.jpg", DailyRentalPrice = 899, Category = video, GameID = 4, },
             new Game { Title  = "Бункер настольная игра", Description = "https://www.tdkarandash.ru/upload/iblock/9f2/74mdg4b5gxprb9b72qbz6in3f44tw2uj.jpg", DailyRentalPrice = 199 ,Category = board, GameID = 5, },
             new Game { Title  = "Детективные истории: Последний рейс Гаттардо", Description = "https://www.tdkarandash.ru/upload/resize_cache/iblock/17b/450_450_140cd750bba9870f18aada2478b24840a/p9y01c8zalmpjhthz1ntxk147flw0f7g.jpg", DailyRentalPrice = 399 , Category = board, GameID = 6, }
+            
         );
         db.SaveChanges();
     }

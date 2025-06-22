@@ -2,45 +2,64 @@
 @using DataBank
 @rendermode InteractiveServer
 @inject DBConnectionContext ef
+@inject NavigationManager Navigation
 @using Pattern
+
 <header class="header">
     <h1 class="logo">GAME<span class="text-purple">RENT</span></h1>
     <nav class="nav">
         <a href="https://localhost:7118/">Главная</a>
         <a href="https://localhost:7118/weather">Каталог</a>
-       <button class="btn-active"> <a href="https://localhost:7118/rent">Аренда</a></button>
+        <button class="btn-active"> <a href="https://localhost:7118/rent">Аренда</a></button>
        
     </nav>
 </header>
-<div class="text"> Ваше имя </div>
-<input type="text" class="btn-acti"/>
-<div class="text"> Ваша фамилия </div>
-<input type="text" class="btn-acti"/>
-<div class="text"> Электронная почта</div>
-<input type="text" class="btn-acti"/>
-<div class="text" > Номер телефона </div>
-<input type="text" class="btn-acti"/>
-<div class="text"> Выберите игру </div>
-<select class="text" @bind="@_game.GameID">
-   
-    <option selected ></option>
-    @foreach (var item in games)
-    {
-    <option value="@item.ID" selected="@((item.ID == _game.GameID).ToString().ToLower())">
-        @item.Title
-    </option>
-    }
+<EditForm FormName="formAddItem" Model="_users" OnValidSubmit="@Submit">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <div class="text" > Ваше имя </div>
+    <input type="text" class="btn-acti" bind-value="@_users.FirstName"/>
+    <div class="text"> Ваша фамилия </div>
+    <input type="text" class="btn-acti" bind-value="@_users.LastName"/>
+    <div class="text"> Электронная почта</div>
+    <input type="text" class="btn-acti" bind-value="@_users.Email" />
+    <div class="text" > Номер телефона </div>
+    <input type="text" class="btn-acti" bind-value="@_users.Phone"/>
+    <div class="text"> Выберите игру </div>
+    <select class="text" @bind="@_game.GameID">
+    
+        <option selected ></option>
+        @foreach (var item in games)
+        {
+            <option value="@item.ID" selected="@((item.ID == _game.GameID).ToString().ToLower())">
+                @item.Title
+            </option>
+        }
 
-</select>
+    </select>
+    <button type="submit">Арендовать</button>
+</EditForm>
+
 @foreach (var item in ef.Games
               .OrderBy(x => x.Title)
               .ToList()) ;
+
 @code{
+    
+     
+    private Users _users = new Users();
+
+    private void Submit(EditContext arg)
+    {
+        ef.Add(_users);
+        ef.SaveChanges();
+        _users = new Users();
+    }
+    
 
     private Game _game = new Game();
     [Parameter]
-    [SupplyParameterFromQuery(Name = "gameId")]
-    public int? SelectedGameId { get; set; }
+    [SupplyParameterFromQuery(Name = "gameID")]
+    public int? SelectedGameID { get; set; }
     
     private List<Game> games = new();
 
@@ -50,9 +69,9 @@
         games = ef.Games.ToList();
 
         
-        if (SelectedGameId.HasValue)
+        if (SelectedGameID.HasValue)
         {
-            _game.GameID = SelectedGameId.Value;
+            _game.GameID = SelectedGameID.Value;
         }
     }
 }
