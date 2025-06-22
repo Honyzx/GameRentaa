@@ -17,17 +17,17 @@
 <EditForm FormName="formAddItem" Model="_users" OnValidSubmit="@Submit">
     <DataAnnotationsValidator></DataAnnotationsValidator>
     <div class="text" > Ваше имя </div>
-    <input type="text" class="btn-acti" bind-value="@_users.FirstName"/>
+    <input type="text" class="btn-acti" bind-value="@_users.FirstName"required/>
     <div class="text"> Ваша фамилия </div>
-    <input type="text" class="btn-acti" bind-value="@_users.LastName"/>
+    <input type="text" class="btn-acti" bind-value="@_users.LastName"required/>
     <div class="text"> Электронная почта</div>
-    <input type="email" class="btn-acti" bind-value="@_users.Email" />
+    <input type="email" class="btn-acti" bind-value="@_users.Email" required/>
     <div class="text" > Номер телефона </div>
-    <input type="text" class="btn-acti" bind-value="@_users.Phone"/>
+    <input type="text" class="btn-acti" bind-value="@_users.Phone" required />
     <div class="text" > Планируемая дата возврата</div>
-    <input type="date" class="btn-acti" bind-value="@_rental.PlannedReturnDate"/>
+    <input type="date" class="btn-acti" bind-value="@_rental.PlannedReturnDate"required/>
     <div class="text"> Выберите игру </div>
-    <select class="text" @bind="@_game.GameID">
+    <select class="text" @bind="@_game.GameID" required>
     
         
         @foreach (var item in games)
@@ -38,7 +38,14 @@
         }
 
     </select>
-    <button type="submit" class="uppp">Арендовать</button>
+    <div><button type="submit" class="arenda">Арендовать</button></div>
+    @if (!string.IsNullOrEmpty(successMessage))
+    {
+    <div class="success-message" style="margin-top: 20px; padding: 10px; border: 1px solid green; background-color: #8b5cf6;">
+        @((MarkupString)successMessage)
+    </div>
+    }
+    
 </EditForm>
 
 @foreach (var item in ef.Games
@@ -46,16 +53,30 @@
               .ToList()) ;
 
 @code{
-    
-     
+
+    private string? successMessage;
     private Users _users = new Users();
     private Rental _rental = new Rental();
 
     private void Submit(EditContext arg)
     {
+        
+        var selectedGame = games.FirstOrDefault(g => g.ID == _game.GameID);
         ef.Add(_users);
         ef.SaveChanges();
+
+        if (selectedGame != null)
+        {
+            successMessage = $"Вы успешно забронировали игру \"{selectedGame.Title}\". " +
+                             $"Планируемая дата возврата: {_rental.PlannedReturnDate:dd.MM.yyyy}";
+        }
+        else
+        {
+            successMessage = "Вы успешно забронировали игру. (название не найдено)";
+        }
         _users = new Users();
+        _rental = new Rental();
+        _game = new Game();
     }
     
 

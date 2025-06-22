@@ -2,10 +2,8 @@
 @using Microsoft.AspNetCore.Mvc
 @using Pattern
 @using DataBank
-
 @using Microsoft.EntityFrameworkCore
 @inject DBConnectionContext  context
-
 @rendermode InteractiveServer
 @inject NavigationManager NavigationManager
 
@@ -32,7 +30,7 @@
 
 <div class="section-ti">КАТАЛОГ   </div>
 <select @bind="selectedCategoryId">
-    <option value="">-- Категория --</option>
+    <option value=""> Категория </option>
     @foreach (var category in _categories)
     {
     <option value="@category.ID">@category.Name</option>
@@ -50,13 +48,14 @@
                 <p>@game.Title</p>
                 <p class="price">@game.CategoryId </p>
                 <a href="/rent?gameID=@game.GameID">
-                <button class="arenda">Арендовать</button>
+                    <button class="arenda">Арендовать</button>
                 </a>
                 
             </div>
           
         }
     </div>
+  
 </section>
 }
 else if (selectedCategoryId != null)

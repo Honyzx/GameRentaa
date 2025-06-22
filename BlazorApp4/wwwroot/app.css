@@ -50,7 +50,17 @@ h1:focus {
     border-color: #929292;
 }
 .rent{
-    
+    background: #2563eb;
+    color: white;
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.375rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+.rent:hover{
+    background: #8b5cf6;
+    color: white;
 }
 body {
     font-family: sans-serif;
@@ -250,16 +260,4 @@ body {
     background: #8b5cf6;
     color: white;
 }
-.uppp{
-    background: #2563eb;
-    color: white;
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    border-radius: 0.375rem;
-    font-weight: bold;
-    cursor: pointer;
-}
-.uppp:hover{
-    background: #8b5cf6;
-    color: white;
-}
+
