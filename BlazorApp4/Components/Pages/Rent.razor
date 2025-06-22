@@ -1,5 +1,8 @@
 @page "/Rent"
+@using DataBank
 @rendermode InteractiveServer
+@inject DBConnectionContext ef
+@using Pattern
 <header class="header">
     <h1 class="logo">GAME<span class="text-purple">RENT</span></h1>
     <nav class="nav">
@@ -17,3 +20,39 @@
 <input type="text" class="btn-acti"/>
 <div class="text" > Номер телефона </div>
 <input type="text" class="btn-acti"/>
+<div class="text"> Выберите игру </div>
+<select class="text" @bind="@_game.GameID">
+   
+    <option selected ></option>
+    @foreach (var item in games)
+    {
+    <option value="@item.ID" selected="@((item.ID == _game.GameID).ToString().ToLower())">
+        @item.Title
+    </option>
+    }
+
+</select>
+@foreach (var item in ef.Games
+              .OrderBy(x => x.Title)
+              .ToList()) ;
+@code{
+
+    private Game _game = new Game();
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "gameId")]
+    public int? SelectedGameId { get; set; }
+    
+    private List<Game> games = new();
+
+    protected override void OnInitialized()
+    {
+        
+        games = ef.Games.ToList();
+
+        
+        if (SelectedGameId.HasValue)
+        {
+            _game.GameID = SelectedGameId.Value;
+        }
+    }
+}

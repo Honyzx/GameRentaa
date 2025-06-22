@@ -89,7 +89,7 @@ body {
     background: white;
 }
 
-/* Carousel */
+
 .carousel {
     position: relative;
 }
@@ -109,7 +109,7 @@ body {
     cursor: pointer;
 }
 
-/* Section Title */
+
 .section-title {
     background: #1d4ed8;
     text-align: center;
@@ -133,7 +133,7 @@ body {
   
 }
 
-/* Catalog */
+
 .catalog {
     padding: 1rem;
 }
@@ -173,7 +173,7 @@ body {
     font-weight: bold;
 }
 
-/* More Link */
+
 .more-link {
     text-align: right;
     color: #8b5cf6;
@@ -182,7 +182,7 @@ body {
     margin-top: 1rem;
 }
 
-/* Footer */
+
 .footer {
     background: #1d4ed8;
     color: white;
@@ -248,4 +248,5 @@ body {
 }
 .arenda:hover{
     background: #8b5cf6;
+    color: white;
 }

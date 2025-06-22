@@ -2,8 +2,12 @@
 @using Microsoft.AspNetCore.Mvc
 @using Pattern
 @using DataBank
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using Microsoft.EntityFrameworkCore
 @inject DBConnectionContext db
+
 @rendermode InteractiveServer
+@inject NavigationManager NavigationManager
 
 
 <head>
@@ -41,12 +45,16 @@
     <div class="catalog-grid">
         @foreach (var game in _filteredGames)
         {
-        <div class="game-card">
-            <img src="@game.Description" alt="@game.Title" />
-            <p>@game.Title</p>
-            <p class="price">@game.DailyRentalPrice </p>
-            <button class="arenda">Арендовать</button>
-        </div>
+            <div class="game-card" >
+                <img src="@game.Description" alt="@game.Title" />
+                <p>@game.Title</p>
+                <p class="price">@game.CategoryId </p>
+                <a href="/rent?gameId=@game.GameID">
+                <button class="arenda">Арендовать</button>
+                </a>
+                
+            </div>
+          
         }
     </div>
 </section>
@@ -89,4 +97,6 @@ else if (selectedCategoryId != null)
             _filteredGames.Clear();
         }
     }
+   
+    
 }
